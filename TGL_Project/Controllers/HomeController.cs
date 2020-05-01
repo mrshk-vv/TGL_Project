@@ -1,37 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using TGL_Project.Models;
+using TGL_Project.Services;
 
 namespace TGL_Project.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private DataBaseContext _databaseContext;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(DataBaseContext databaseContext)
         {
-            _logger = logger;
+            this._databaseContext = databaseContext;
         }
 
+        //Home page
         public IActionResult Index()
         {
-            return View();
+            return View(_databaseContext.New.ToList());
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
     }
 }
