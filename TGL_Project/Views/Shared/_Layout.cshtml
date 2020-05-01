@@ -1,48 +1,157 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - TGL_Project</title>
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/Header.css" />
+    <link rel="stylesheet" href="~/css/Index.css" />
+    <link rel="stylesheet" href="~/css/Calendar.css" />
+    <link rel="stylesheet" href="~/css/Footer.css" />
+    <link rel="stylesheet" href="~/css/TeacherProfile.css" />
+    <link rel="stylesheet" href="~/css/AddCourse.css" />
+    <link rel="stylesheet" href="~/css/Course.css" />
+    <link rel="stylesheet" href="~/css/CourseProfile.css" />
+    <link rel="stylesheet" href="~/css/StudentProfile.css" />
+    <link rel="stylesheet" href="~/css/DeleteTask.css" />
+    <link rel="stylesheet" href="~/css/IndexTeacher.css" />
+    <link rel="stylesheet" href="~/css/New.css" />
+    <link rel="stylesheet" href="~/css/StyleSheet.css" />
+    <link rel="stylesheet" href="~/css/Chat.css" />
+    <link rel="stylesheet" href="~/css/PickUpUser.css" />
+    <link rel="stylesheet" href="~/css/IndexStudent.css">
+
+    <!-- Bootstrap core CSS -->
+    @* <link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css" />*@
+
+    <script src="https://bootstraptema.ru/plugins/jquery/jquery-1.11.3.min.js"></script>
+    <script src="https://bootstraptema.ru/plugins/2015/b-v3-3-6/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="~/js/loadscript.js"></script>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TGL_Project</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+        <nav class="navbar navbar-expand-md navbar-light" id="header">
+            <div class="container-fluid">
+                <a href="~/Home/Index" class="navbar-brand"><img src="~/img/logo upgr.jpg" id="logo" /></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarResponsive">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+
+                            <a id="findUsers" asp-controller="PickupUser" asp-action="Index">Поиск пользователей</a>
+
+                            if (User.IsInRole("teacher"))
+                            {
+                                <a id="userName" asp-controller="Teacher" asp-action="Profile">@User.Identity.Name</a>
+                            }
+                            else if (User.IsInRole("student"))
+                            {
+                                <a id="userName" asp-controller="Student" asp-action="Profile">@User.Identity.Name</a>
+
+                            }
+                            else if (User.IsInRole("admin"))
+                            {
+                                <a id="userName" asp-controller="Admin" asp-action="Index">@User.Identity.Name</a>
+
+                            }
+
+                            <form method="post" asp-controller="Account" asp-action="Logout">
+                                <button type="submit" class="btn btn-danger">Выход</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <li class="nav-item active">
+                                <form method="get" asp-controller="Account" asp-action="Login">
+                                    <button type="submit" class="btn btn-danger">
+                                        Вход
+                                    </button>
+                                </form>
+
+                            </li>
+
+                            <li class="nav-item active">
+                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">Регистрация</button>
+                            </li>
+                        }
+
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+
+
+    @RenderBody()
+
+
+    <!-- Modal window choose who register-->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" id="colorModal">
+
+                <div class="modal-body text-center">
+                    <a id="add-cart-style-grid" class="btn btn-success" asp-controller="Account" asp-action="TeacherRegister">Преподаватель</a>
+                    <a id="add-cart-style-grid" class="btn btn-success" asp-controller="Account" asp-action="StudentRegister">Студент</a>
+                </div>
+
+            </div>
+        </div>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2020 - TGL_Project - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+
+    @*<footer id="footer">
+            <table>
+                <tr>
+                    <td id="sizeTd">
+                        <p id="who">Преподавателям</p>
+                        <div id="infoFoot">
+                            <a href=""> <p id="kindText"> Добавить курс</p> </a>
+                            <a href=""> <p id="kindText"> Повышение квалификации</p> </a>
+                            <a href=""> <p id="kindText"> Мероприятия</p> </a>
+
+                        </div>
+                    </td>
+                    <td id="sizeTd">
+                        <p id="who">Студентам</p>
+                        <div id="infoFoot">
+                            <a href=""><p id="kindText">Курсы</p></a>
+                            <a href=""><p id="kindText">Журнал оценнок</p></a>
+                            <a href=""><p id="kindText">Новости</p></a>
+
+                        </div>
+                    </td>
+                    <td id="sizeTd">
+                        <p id="who">Администратору</p>
+                        <div id="infoFoot">
+                            <a href=""><p id="kindText">Добавить новости</p></a>
+                        </div>
+                    </td>
+                </tr>
+
+            </table>
+            &copy; 2020 - CrazyDev
+        </footer>*@
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/Calendar.js"></script>
+    <script src="~/js/Popup.js"></script>
+
+
+
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>
+
