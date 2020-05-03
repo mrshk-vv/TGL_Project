@@ -6,17 +6,17 @@ namespace TGL_Project.Controllers
 {
     public class HomeController : Controller
     {
-        private DataBaseContext _databaseContext;
+        private readonly DataBaseContext _databaseContext;
 
         public HomeController(DataBaseContext databaseContext)
         {
-            this._databaseContext = databaseContext;
+            _databaseContext = databaseContext;
         }
 
         //Home page
         public IActionResult Index()
         {
-            return View(_databaseContext.New.ToList());
+            return View(_databaseContext.News.ToList());
         }
 
 

@@ -1,0 +1,45 @@
+﻿
+@{
+    Layout = "_LayoutForAdmin";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-4">
+            <p align="center"><a asp-controller="Admin" asp-action="Users"><img src="~/img/admin/users.png" /></a></p>
+        </div>
+        <div class="col-lg-4">
+            <p align="center"><a asp-controller="Admin" asp-action="FacultyOrDepartment"><img src="~/img/admin/fucanddep.png" /></a></p>
+        </div>
+        <div class="col-lg-4">
+            <p align="center"><a asp-controller="News" asp-action="AllNews"><img src="~/img/admin/news.png" /></a></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+            <p align="center"><a div class="btn btn-outline-dark" asp-controller="Admin" asp-action="Users">Управление пользователями</a></p>
+        </div>
+        <div class="col-lg-4">
+            <p align="center"><a div class="btn btn-outline-dark" asp-controller="Admin" asp-action="FacultyOrDepartment">Факультеты|Кафедры</a></p>
+        </div>
+        <div class="col-lg-4">
+            <p align="center"><a div class="btn btn-outline-dark" asp-controller="News" asp-action="AllNews">Новости</a></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <p align="center"><a asp-controller="Admin" asp-action="Groups"><img src="~/img/admin/groups.jpg" /></a></p>
+        </div>
+        <div class="col-lg-6">
+            <p align="center"><a asp-controller="Admin" asp-action="Positions"><img src="~/img/admin/positions.jpg" /></a></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <p align="center"><a div class="btn btn-outline-dark" asp-controller="Admin" asp-action="Groups">Группы</a></p>
+        </div>
+        <div class="col-lg-6">
+            <p align="center"><a div class="btn btn-outline-dark" asp-controller="Admin" asp-action="Positions">Должности</a></p>
+        </div>
+    </div>
+</div>

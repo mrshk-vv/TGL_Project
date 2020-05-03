@@ -1,0 +1,18 @@
+﻿@model User
+
+@if (Model.AvatarPath == "")
+{
+    <img src="~/img/noName.png" style="width:250px; height:250px;margin-top:10px;margin-left : 10px;" />
+}
+else
+{
+    <img src="@Url.Content(Model.AvatarPath)" style="width:250px; height:250px;margin-top:10px;margin-left : 10px;" />
+}
+
+<a class="btn btn-danger" asp-controller="UserSettings" asp-action="DeleteAvatar">Удалить</a>
+
+<form asp-controller="UserSettings" asp-action="UploadAvatar" method="post" enctype="multipart/form-data">
+    <input type="file" name="uploadedFile" style="margin-top:10px;margin-left : 10px;" /><br>
+    <input type="submit" class="btn btn-success" value="Загрузить" style="margin-top:10px;margin-left : 10px;" />
+
+</form>

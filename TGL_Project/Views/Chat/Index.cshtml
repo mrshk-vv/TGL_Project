@@ -1,0 +1,137 @@
+﻿@model ChatHistoryViewModel
+
+
+<div class="left col-lg-6">
+    <div class=" col-lg-6 infoUser">
+        <div>
+            <div id="locationPht">
+                @if (Model.OpositeUser.AvatarPath == "")
+                {
+                    <img src="~/img/noName.png" id="sizePht" />
+                }
+                else
+                {
+                    <img src="@Url.Content(Model.OpositeUser.AvatarPath)" id="sizePht" />
+                }
+            </div>
+
+            <div id="locationName">
+                <h2>@Model.OpositeUser.Name    @Model.OpositeUser.Surname</h2>
+            </div>
+            <hr />
+            <div class="row">
+                <p id="otsInfo">Email: </p>
+                <h6 id="locationName">@Model.OpositeUser.Email</h6>
+            </div>
+            <div class="row">
+                <p id="otsInfo">Телефон: </p>
+                <h6 id="locationPhone">@Model.OpositeUser.PhoneNumber</h6>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="right col-lg-6">
+
+    <div class="nameWithChat container col-lg-8">
+        <div id="opositeUserInfo">
+            <p align="right"><label>@Model.CurrentUser.Name @Model.OpositeUser.Name</label></p>
+        </div>
+
+
+
+
+    </div>
+
+    <div class="inputMessage container col-lg-8">
+        <div id="inputForm" class="form-group row ">
+            <input type="text" class="form-control col-lg-10" id="message" placeholder="Введите сообщение">
+            <button type="submit" class="btn btn-link" id="sendBtn"><img src="https://img.icons8.com/color/48/000000/send-letter--v1.png" /></button>
+        </div>
+    </div>
+
+    <div class="container containersss col-lg-8 ">
+
+        <div id="chatroom">
+            @{
+                Message message;
+                for (int i = 0; i < Model.Messages.Count; i++)
+                {
+                    message = Model.Messages[Model.Messages.Count - i - 1];
+
+                    if (message.Direction)
+                    {
+                        <p align="right" id="rightChat">@message.Text</p> @*//right*@
+                    }
+                    else
+                    {
+                        <p align="left" id="leftChat">@message.Text</p> // left
+                    }
+                }
+            }
+        </div>
+
+        <script src="js/signalr/dist/browser/signalr.min.js"></script>
+
+        <script>
+        const hubConnection = new signalR.HubConnectionBuilder()
+            .withUrl("/chatpool")
+            .build();
+
+
+        hubConnection.on("Send", function (model) { //приходит сообщение
+
+            if (model.currentUserId === "@Model.OpositeUser.Id" && model.opositeUserId === "@Model.CurrentUser.Id") {
+
+                let elem = document.createElement("p");
+                elem.appendChild(document.createTextNode(model.message));
+
+                let firstElem = document.getElementById("chatroom").firstChild;
+
+                document.getElementById("chatroom").insertBefore(elem, firstElem).style.cssText = "background:linear-gradient(90deg, rgba(85,255,221,1) 11%, rgba(26,226,104,1) 62%, rgba(21,178,214,1) 99%);  border: 1px solid black; text-align: left; color:white; border-radius:10px 10px 10px 10px; padding-left:8px; font-size:20px;";
+            }
+
+        });
+
+
+        document.getElementById("sendBtn").addEventListener("click", function (e) {//я отправляю
+            let message = document.getElementById("message").value;
+
+            if (message === "") {
+                return;
+            }
+
+            let elem = document.createElement("p");
+
+            elem.appendChild(document.createTextNode(message));
+
+            let firstElem = document.getElementById("chatroom").firstChild;
+            document.getElementById("chatroom").insertBefore(elem, firstElem).style.cssText = "background:linear-gradient(90deg, rgba(180,58,178,1) 5%, rgba(161,52,176,1) 23%, rgba(255,85,192,1) 57%, rgba(210,21,224,1) 81%, rgba(120,69,252,1) 100%); border: 1px solid black; text-align: right; color:white; border-radius:10px 10px 10px 10px; padding-right:8px; font-size:20px; ";
+
+
+            hubConnection.invoke("Send",
+                {
+                    "CurrentUserId": "@Model.CurrentUser.Id",
+                    "OpositeUserId": "@Model.OpositeUser.Id",
+                    "Message" : message
+                });
+
+        });
+
+
+        document.getElementById("sendBtn").onclick = function(e) {
+
+             document.getElementById("message").value = "";
+        }
+
+        hubConnection.start();
+        </script>
+
+
+    </div>
+    <div class="endChat container col-lg-8">
+        ss
+    </div>
+
+
+</div>

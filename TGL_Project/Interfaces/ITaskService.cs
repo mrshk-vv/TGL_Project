@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using TGL_Project.Models;
+using TGL_Project.ViewModels.TaskRelated;
 
 namespace TGL_Project.Interfaces
 {

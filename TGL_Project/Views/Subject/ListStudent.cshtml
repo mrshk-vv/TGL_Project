@@ -1,0 +1,49 @@
+﻿@model TGL_Project.ViewModels.SubjectRelated.StudentSubjectViewModel
+
+@{
+    ViewData["Title"] = "Список студентов";
+}
+
+@if (Model != null)
+{
+    if (Model.Students.Count() == 0)
+    {
+        <h6>Список пуст</h6>
+    }
+    else
+    {
+        <h3>Студенты</h3>
+        <table>
+            <tr>
+                <td>Имя</td>
+                <td>Фамилия</td>
+                <td>Отчество</td>
+                <td>Группа</td>
+                <td></td>
+            </tr>
+
+            @foreach (Student student in Model.Students)
+            {
+
+                if (student != null)
+                {
+                    <tr>
+
+                        <td>@student.User.Name</td>
+                        <td>@student.User.Surname</td>
+                        <td>@student.User.Patronymic</td>
+
+                        <td>@student.Group.Name</td>
+                        <td><a asp-controller="Subject" asp-action="DeleteStudentFromSubject" asp-route-subjectId="@Model.Subject.Id" asp-route-studentId="@student.Id">Удалить</a> |</td>
+
+                    </tr>
+                }
+
+            }
+
+
+        </table>
+    }
+
+
+}

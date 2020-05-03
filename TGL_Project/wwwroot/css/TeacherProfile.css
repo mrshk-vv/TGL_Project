@@ -1,0 +1,106 @@
+﻿
+#leftSide {
+    background: #00b6b9;
+    height: 600px;
+    top: 20px;
+}
+
+#sizePht {
+    padding-left: 50px;
+    padding-top: 30px;
+    width: 200px;
+    height: 200px;
+}
+
+
+#centerSide {
+    background: white;
+    height: 600px;
+    top: 20px;
+}
+
+#rightSide {
+    background: white;
+    height: 600px;
+    top: 20px;
+}
+
+
+#otstupOtCray {
+    padding-top: 20px;
+    color: white;
+}
+
+#Raspolog {
+    padding-left: 16px;
+}
+
+#Raspolog1 {
+    padding-left: 170px;
+}
+
+#Raspolog2 {
+    padding-left: 100px;
+}
+
+#Raspolog3 {
+    padding-left: 160px;
+}
+
+#razriv {
+    padding-top: 40px;
+}
+
+/*Список курсов*/
+.rounded {
+    counter-reset: li;
+    list-style: none;
+    font: 16px "Trebuchet MS", "Lucida Sans";
+    padding: 0;
+    text-shadow: 0 1px 0 rgba(255,255,255,.5);
+}
+
+    .rounded a {
+        position: relative;
+        display: block;
+        padding: .4em .4em .4em 2em;
+        margin: .5em 0;
+        background: white;
+        color: #444;
+        text-decoration: none;
+        border-radius: .3em;
+        transition: .3s ease-out;
+    }
+
+        .rounded a:hover {
+            background: white;
+        }
+
+            .rounded a:hover:before {
+                transform: rotate(360deg);
+            }
+
+        .rounded a:before {
+            padding-top: 1px;
+            content: counter(li);
+            counter-increment: li;
+            position: absolute;
+            left: -1.3em;
+            top: 50%;
+            margin-top: -1.3em;
+            background: #8FD4C1;
+            height: 3em;
+            width: 3em;
+            line-height: 2em;
+            border: .3em solid white;
+            text-align: center;
+            font-weight: bold;
+            border-radius: 2em;
+            transition: all .3s ease-out;
+        }
+
+#elmList {
+    padding-left: 18px;
+}
+/*Список курсов*/
+

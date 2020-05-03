@@ -4,10 +4,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using TGL_Project.Interfaces;
+using TGL_Project.Models;
+using TGL_Project.Services;
+using TGL_Project.SignalR;
 
 namespace TGL_Project
 {
@@ -23,27 +30,50 @@ namespace TGL_Project
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSignalR();
+
+            string connection = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<DataBaseContext>(options => options.UseSqlServer(connection));
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<EmailService>();
+
+            services.AddTransient<IAuthentication, AuthenticationService>();
+            services.AddTransient<IDatabaseWorker, DatabaseWorkerService>();
+            services.AddTransient<ISubjectService, SubjectService>();
+            services.AddTransient<IFileService, FileService>();
+            services.AddTransient<ITaskService, TaskService>();
+            services.AddTransient<INewsService, NewsService>();
+            services.AddTransient<IChatService, ChatService>();
+
+
+            services.AddIdentity<User, IdentityRole>(opts => {
+                    opts.Password.RequiredLength = 5;   // минимальная длина
+                    opts.Password.RequireNonAlphanumeric = false;   // требуются ли не алфавитно-цифровые символы
+                    opts.Password.RequireLowercase = false; // требуются ли символы в нижнем регистре
+                    opts.Password.RequireUppercase = false; // требуются ли символы в верхнем регистре
+                    opts.Password.RequireDigit = false; // требуются ли цифры
+
+                    opts.User.RequireUniqueEmail = true;    // уникальный email
+                    opts.User.AllowedUserNameCharacters = ".@abcdefghijklmnopqrstuvwxyz1234567890"; // допустимые символы
+                })
+                .AddEntityFrameworkStores<DataBaseContext>();
+
+
             services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
-            app.UseHttpsRedirection();
+            app.UseDeveloperExceptionPage();
+
+            app.UseDefaultFiles();
             app.UseStaticFiles();
 
             app.UseRouting();
 
+            app.UseAuthentication();    // подключение аутентификации
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -51,6 +81,12 @@ namespace TGL_Project
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapControllerRoute(
+                    name: "admin",
+                    pattern: "{controller=Admin}/{action=Users}/{id?}");
+
+                endpoints.MapHub<ChatHub>("/chatpool");
             });
         }
     }

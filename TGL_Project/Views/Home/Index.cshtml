@@ -1,8 +1,93 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<News>
+@{
+    ViewData["Title"] = "TGL_Project";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!--Слайдер-->
+<div class="carousel slide" data-ride="carousel" id="slides">
+    <ul class="carousel-indicators">
+        <li data-target="#slides" data-slide-to="0" class="active"></li>
+        <li data-target="#slides" data-slide-to="1"></li>
+    </ul>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="~/img/slide1.jpg" />
+        </div>
+        <div class="carousel-item">
+            <img src="img/slide2.jpg" />
+        </div>
+    </div>
 </div>
+
+<!--Content-->
+<table>
+    <tr>
+        <td id="left">
+
+            @if (Model != null)
+            {
+                <p id="newsSite">Новости сайта</p>
+                @foreach (var news in Model)
+                {
+                    @if (news != null)
+                    {
+                        <div class="showondisplay">
+                            <table cellspacing="4">
+                                <tr>
+                                    <td>
+                                        <h5>@news.Heading</h5>
+                                        <p>@news.TimeNew.ToShortDateString()</p>
+                                        <p>@news.Contents</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    }
+
+                }
+            }
+
+
+
+        </td>
+
+        <td id="right">
+            <p id="calendar" name="calen">Календарь</p>
+            <table id="calendar2" class="calendarClass">
+                <thead>
+                    <tr><td>‹<td colspan="5"><td>›
+                    <tr><td>Пн<td>Вт<td>Ср<td>Чт<td>Пт<td>Сб<td>Вс
+                <tbody>
+            </table>
+            <hr />
+            <div id="news">
+                <p id="calendar">Новости</p>
+                <div class="calendarClass">
+                    @foreach (var news in Model)
+                    {
+                        <p>@news.Heading</p>
+                    }
+                </div>
+                <hr />
+            </div>
+
+            <div id="">
+                <p id="calendar">Ожидается</p>
+                <div class="calendarClass">
+                    В будущем событий не ожидается
+                    <p><a href="#calen">Вернуться к календарю</a></p>
+                </div>
+                <hr />
+            </div>
+
+            <div id="">
+                <p id="calendar">Главное меню</p>
+                <div class="calendarClass">
+                    <p><a href="#calendar">Просмотреть новости</a></p>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+

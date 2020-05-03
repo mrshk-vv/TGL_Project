@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TGL_Project.Models;
+using TGL_Project.ViewModels.ChatRelated;
 
 namespace TGL_Project.Interfaces
 {

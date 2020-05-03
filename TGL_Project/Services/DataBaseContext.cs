@@ -30,7 +30,7 @@ namespace TGL_Project.Services
         public DbSet<Task> Task { get; set; }
         public DbSet<Teacher> Teacher { get; set; }
         public DbSet<Position> Position { get; set; }
-        public DbSet<News> New { get; set; }
+        public DbSet<News> News { get; set; }
         public DbSet<Chat> Chat { get; set; }
         public DbSet<Message> Message { get; set; }
 

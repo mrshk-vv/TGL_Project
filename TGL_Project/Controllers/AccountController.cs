@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using TGL_Project.Interfaces;
 using TGL_Project.Models;
 using TGL_Project.ViewModels;
@@ -14,10 +14,10 @@ namespace TGL_Project.Controllers
 {
     public class AccountController : Controller
     {
-        private IAuthentication _authentication;
-        private IDatabaseWorker _databaseWorker;
-        private UserManager<User> _userManager;
-        private EmailService emailService;
+        private readonly IAuthentication _authentication;
+        private readonly IDatabaseWorker _databaseWorker;
+        private readonly UserManager<User> _userManager;
+        private readonly EmailService emailService;
 
         public AccountController(IAuthentication authentication, IDatabaseWorker databaseWorker, UserManager<User> userManager, EmailService emailService)
         {
@@ -120,7 +120,7 @@ namespace TGL_Project.Controllers
 
                         if (await _authentication.IsInRole(user, RoleInitializer.ROLE_ADMIN))
                         {
-                            return RedirectToAction("Index", "Admin");
+                            return RedirectToAction("Index", "Home");
                         }
 
                         return RedirectToAction("Index", "Home");
@@ -312,4 +312,4 @@ namespace TGL_Project.Controllers
         }
     }
 }
-}
+
