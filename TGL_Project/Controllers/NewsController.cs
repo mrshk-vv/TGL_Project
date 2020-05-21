@@ -29,6 +29,7 @@ namespace TGL_Project.Controllers
             return View();
         }
 
+        [HttpPost]
         public async Task<IActionResult> AddNew(News nw)
         {
             nw.TimeNew = DateTime.Now;
